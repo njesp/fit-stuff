@@ -125,17 +125,20 @@ df['TSS'] = 0
 for filename in tqdm(os.listdir(directory)):
     if filename.endswith('.fit'):
         workout = load_workout((os.path.join(directory, filename)))
-        date = get_date(workout)
-        if date not in df.index:
-            # File not in date range
-            continue
-        if 'power' in workout:
-            df.loc[date, 'TSS'] += get_tss(workout)
-        elif 'heart_rate' in workout:
-            df.loc[date, 'TSS'] += get_hr_tss(workout)
+        if not workout.empty:
+            date = get_date(workout)
+            if date not in df.index:
+                # File not in date range
+                continue
+            if 'power' in workout:
+                df.loc[date, 'TSS'] += get_tss(workout)
+            elif 'heart_rate' in workout:
+                df.loc[date, 'TSS'] += get_hr_tss(workout)
+            else:
+                # File does not contain power/HR
+                continue
         else:
-            # File does not contain power/HR
-            continue
+            pass  # tom fil
 
 # Plot PMC
 fig, ax = plt.subplots()
