@@ -1,0 +1,1 @@
+& python .\garminbackup.py -f fit --backup-dir=c:/drive/dokumenter/niels/garmin-fit-files niels@jespersen.info
